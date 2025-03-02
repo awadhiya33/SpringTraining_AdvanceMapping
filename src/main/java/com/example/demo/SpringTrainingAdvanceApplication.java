@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.example.demo.entity.Course;
 import com.example.demo.entity.Instructor;
 import com.example.demo.entity.InstructorDetail;
 import com.example.demo.persistance.AppDao;
@@ -23,10 +24,27 @@ public class SpringTrainingAdvanceApplication {
 //			findInstructor(appDao);
 //			deleteInstructor(appDao);
 //			findInstructorDetail(appDao);
-			deleteInstructorDetail(appDao);
+//			deleteInstructorDetail(appDao);
+			createInstructorWithCourses(appDao);
 		};
 	}
 	
+	private void createInstructorWithCourses(AppDao appDao) {
+		//Instructor tempInstructor=new Instructor("abhi","singh","abhi.harry33@gmail.com");
+		InstructorDetail tempInstructorDetail=new InstructorDetail("https://youtube","Video games");
+		Instructor tempInstructor=new Instructor("amit","verma","amit.verma33@gmail.com");
+//		InstructorDetail tempInstructorDetail=new InstructorDetail("https://zmit/youtube","guitar");
+		tempInstructor.setInstructorDetail(tempInstructorDetail);
+		Course c1=new Course("guitar");
+		Course c2=new Course("cricket");
+		tempInstructor.add(c1);
+		tempInstructor.add(c2);
+		//thuis will also save the courses in course table because of cascading
+		System.out.println("saving instructor"+tempInstructor);
+		appDao.save(tempInstructor);
+		System.out.println("Done");
+	}
+
 	private void deleteInstructorDetail(AppDao appDao) {
 		int id=3;
 		System.out.println("deleting InstructorDetail id: "+id);
